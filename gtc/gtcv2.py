@@ -1195,21 +1195,19 @@ class Converter:
 
 if __name__ == "__main__":
     try:
-        #while True:
+        while True:
             stderr.write(header)
+            stderr.write("Press Ctrl+C to exit.\n")
             c = Converter()
             all_charts = c.load_charts()
-            # system1 = input("System 1: ").strip().lower()
-            # system2 = input("System 2: ").strip().lower()
-            system1 = "insanity"
-            system2 = "insanity"
+            system1 = input("System 1: ").strip().lower()
+            system2 = input("System 2: ").strip().lower()
             chart1 = c.find_chart(system1, all_charts)
             chart2 = c.find_chart(system2, all_charts)
 
             # c.fast = True
 
-            # notation = input("Notation: ")
-            notation = "d;df"
+            notation = input("Notation: ")
             print(c.translate(chart1, chart2, notation))
     except KeyboardInterrupt:
         exit("\nExiting...")
