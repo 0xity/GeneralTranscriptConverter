@@ -1,0 +1,996 @@
+{
+  "chart_names": [
+    "insanity",
+    "insanity extension"
+  ],
+  "properties": {
+    "fuzzy_match_symbols": false,
+    "order_after_mods": true,
+    "separate_shiftstones": true,
+    "strict_numbering": false,
+    "embedded_notes": false
+  },
+  "symbols": {
+    "structure_disc": {
+      "text": "d",
+      "description": "Summon a disc.",
+      "notes": [
+        "summon a disc"
+      ],
+      "tags": [
+        "structure",
+        "mirrorable"
+      ]
+    },
+    "structure_pillar": {
+      "text": "p",
+      "description": "Summon a pillar.",
+      "notes": [
+        "summon a pillar"
+      ],
+      "tags": [
+        "structure",
+        "mirrorable"
+      ]
+    },
+    "structure_ball": {
+      "text": "b",
+      "description": "Summon a ball.",
+      "notes": [
+        "summon a ball"
+      ],
+      "tags": [
+        "structure",
+        "mirrorable"
+      ]
+    },
+    "structure_cube": {
+      "text": "c",
+      "description": "Summon a cube.",
+      "notes": [
+        "summon a cube"
+      ],
+      "tags": [
+        "structure"
+      ]
+    },
+    "structure_wall": {
+      "text": "w",
+      "description": "Summon a wall",
+      "notes": [
+        "summon a wall"
+      ],
+      "tags": [
+        "structure"
+      ]
+    },
+    "structure_boulder": {
+      "text": "o",
+      "description": "Perform on a boulder.",
+      "notes": [
+        "perform on a boulder"
+      ],
+      "tags": [
+        "structure"
+      ]
+    },
+    "structure_wildcard": {
+      "text": "s",
+      "description": "Perform on any structure.",
+      "notes": [
+        "perform on any structure"
+      ],
+      "tags": [
+        "structure"
+      ]
+    },
+    "mod_straight": {
+      "text": "S",
+      "description": "Straight modifier.",
+      "notes": [
+        "straight"
+      ],
+      "tags": [
+        "modifier",
+        "mirrorable"
+      ]
+    },
+    "mod_uppercut": {
+      "text": "U",
+      "description": "Uppercut modifier.",
+      "notes": [
+        "uppercut"
+      ],
+      "tags": [
+        "modifier",
+        "mirrorable"
+      ]
+    },
+    "mod_kick": {
+      "text": "K",
+      "description": "Kick modifier.",
+      "notes": [
+        "kick"
+      ],
+      "tags": [
+        "modifier",
+        "mirrorable"
+      ]
+    },
+    "mod_ground": {
+      "text": "G",
+      "description": "Ground modifier.",
+      "notes": [
+        "ground",
+        "stomp"
+      ],
+      "tags": [
+        "modifier"
+      ]
+    },
+    "mod_parry": {
+      "text": "P",
+      "description": "Parry modifier.",
+      "notes": [
+        "parry"
+      ],
+      "tags": [
+        "modifier"
+      ]
+    },
+    "mod_hold": {
+      "text": "H",
+      "description": "Hold modifier.",
+      "notes": [
+        "hold"
+      ],
+      "tags": [
+        "modifier",
+        "mirrorable"
+      ]
+    },
+    "mod_flick": {
+      "text": "F",
+      "description": "Flick modifier.",
+      "notes": [
+        "flick"
+      ],
+      "tags": [
+        "modifier",
+        "mirrorable"
+      ]
+    },
+    "mod_explode": {
+      "text": "E",
+      "description": "Explode modifier.",
+      "notes": [
+        "explode"
+      ],
+      "tags": [
+        "modifier"
+      ]
+    },
+    "movement_dash": {
+      "text": "D",
+      "description": "Dash.",
+      "notes": [
+        "dash"
+      ],
+      "tags": [
+        "mirrorable"
+      ]
+    },
+    "movement_jump": {
+      "text": "J",
+      "description": "Jump.",
+      "notes": [
+        "jump"
+      ],
+      "tags": [
+        "mirrorable"
+      ]
+    },
+    "movement_walk": {
+      "text": "m",
+      "description": "Walk, direction not specified.",
+      "notes": [
+        "walk",
+        "move"
+      ]
+    },
+    "movement_run": {
+      "text": "R",
+      "description": "Run, direction not specified.",
+      "notes": [
+        "run"
+      ]
+    },
+    "movement_turn": {
+      "text": "t",
+      "description": "Turn, direction not specified.",
+      "notes": [
+        "turn",
+        "pivot"
+      ]
+    },
+    "movement_u_turn": {
+      "text": "u",
+      "description": "Turn backwards by pulling back on the joystick.",
+      "notes": [
+        "u-turn",
+        "180"
+      ]
+    },
+    "movement_lock_on": {
+      "text": "^",
+      "description": "Lock on opponent by pushing up on the joystick.",
+      "notes": [
+        "lock on",
+        "face opponent",
+        "look at opponent"
+      ]
+    },
+    "flight_bump": {
+      "text": "B",
+      "description": "Bump with strucutre(s).",
+      "notes": [
+        "bump"
+      ]
+    },
+    "flight_mount": {
+      "text": "M",
+      "description": "Mount structure(s).",
+      "notes": [
+        "mount"
+      ]
+    },
+    "shiftstone_separator": {
+      "text": "/",
+      "description": "Separates shiftstones from rest of notation.",
+      "tags": [
+        "shiftstone_separator"
+      ]
+    },
+    "shiftstone_charge": {
+      "text": "C",
+      "description": "Perform with charge stone equipped.",
+      "notes": [
+        "with charge"
+      ],
+      "tags": [
+        "shiftstone"
+      ]
+    },
+    "shiftstone_flow": {
+      "text": "F",
+      "description": "Perform with flow stone equipped.",
+      "notes": [
+        "with flow"
+      ],
+      "tags": [
+        "shiftstone"
+      ]
+    },
+    "shiftstone_stubborn": {
+      "text": "S",
+      "description": "Perform with stubborn stone equipped.",
+      "notes": [
+        "with stubborn"
+      ],
+      "tags": [
+        "shiftstone"
+      ]
+    },
+    "shiftstone_volatile": {
+      "text": "V",
+      "description": "Perform with volatile stone equipped.",
+      "notes": [
+        "with volatile"
+      ],
+      "tags": [
+        "shiftstone"
+      ]
+    },
+    "shift_effect_guard": {
+      "text": "g",
+      "description": "Trigger guard stone effect.",
+      "notes": [
+        "guard"
+      ]
+    },
+    "shift_effect_charge": {
+      "text": "**#MODIFIER#**",
+      "description": "Trigger charge stone effect.",
+      "notes": [
+        "charge",
+        "trigger charge",
+        "activate charge"
+      ],
+      "tags": [
+        "token"
+      ]
+    },
+    "structure_state_grounded": {
+      "text": "[#STRUCTURE#]",
+      "description": "Grounded structure.",
+      "notes": [
+        "grounded"
+      ],
+      "tags": [
+        "structure_state",
+        "token"
+      ]
+    },
+    "structure_state_free": {
+      "text": "(#STRUCTURE#)",
+      "description": "Free (ungrounded) structure.",
+      "notes": [
+        "free",
+        "ungrounded"
+      ],
+      "tags": [
+        "structure_state",
+        "token"
+      ]
+    },
+    "structure_state_incoming": {
+      "text": "{#STRUCTURE#}",
+      "description": "Incoming/moving structure.",
+      "notes": [
+        "incoming",
+        "moving"
+      ],
+      "tags": [
+        "structure_state",
+        "token"
+      ]
+    },
+    "structure_state_explosive": {
+      "text": "<#STRUCTURE#>",
+      "description": "Explosive structure.",
+      "notes": [
+        "explosive",
+        "with explode"
+      ],
+      "tags": [
+        "structure_state",
+        "token"
+      ]
+    },
+    "structure_state_wildcard": {
+      "text": "|#STRUCTURE#|",
+      "description": "Structure in any state.",
+      "notes": [
+        "any state"
+      ],
+      "tags": [
+        "structure_state",
+        "token"
+      ]
+    },
+    "mod_state_mirror": {
+      "text": "*#MIRROR#*",
+      "description": "Perform the modifier mirrored.",
+      "notes": [
+        "mirrored",
+        "backwards"
+      ],
+      "tags": [
+        "token"
+      ]
+    },
+    "cadence_arrow": {
+      "text": " > ",
+      "description": "Splits notation for readability or cadence."
+    },
+    "cadence_pause": {
+      "text": ".",
+      "description": "Pause for a short period of time.",
+      "notes": [
+        "pause"
+      ]
+    },
+    "cadence_wait": {
+      "text": "_",
+      "description": "Wait a longer period of time.",
+      "notes": [
+        "wait"
+      ]
+    },
+    "cadence_repeat": {
+      "text": "...",
+      "description": "Repeat previous part of notation.",
+      "notes": [
+        "repeat"
+      ]
+    },
+    "cadence_base_pose": {
+      "text": "=",
+      "description": "Base summoning pose, specified for inbetweeners.",
+      "notes": [
+        "base pose",
+        "inbetweener"
+      ]
+    },
+    "clarity_note": {
+      "text": "!",
+      "description": "Extra detail that can't be notated.",
+      "tags": [
+        "note_symbol"
+      ]
+    },
+    "extra_unground": {
+      "text": "O",
+      "description": "Unground a structure.",
+      "notes": [
+        "unground"
+      ],
+      "tags": [
+        "modifier"
+      ]
+    },
+    "extra_explosive_unground": {
+      "text": "O;e",
+      "description": "Unground a structure with another explosive structure.",
+      "notes": [
+        "unground with explosive"
+      ],
+      "tags": [
+        "modifier"
+      ]
+    },
+    "extra_hit": {
+      "text": "h",
+      "description": "Hit something with a structure.",
+      "notes": [
+        "hit structure"
+      ],
+      "tags": [
+        "modifier"
+      ]
+    },
+    "extra_hitstop": {
+      "text": ";h",
+      "description": "Perform while in hitstop.",
+      "notes": [
+        "in hitstop"
+      ]
+    },
+    "extra_ricochet": {
+      "text": "h;R",
+      "description": "Ricochet off of structure.",
+      "notes": [
+        "ricochet"
+      ]
+    },
+    "extra_ricochet_specific": {
+      "text": "h#STRUCTURE#;R",
+      "description": "Ricochet off of structure.",
+      "notes": [
+        "ricochet"
+      ],
+      "tags": [
+        "token"
+      ]
+    },
+    "extra_crush": {
+      "text": "C",
+      "description": "Destroy structure.",
+      "notes": [
+        "destroy",
+        "crush",
+        "break"
+      ],
+      "tags": [
+        "modifier"
+      ]
+    },
+    "extra_crush_specific": {
+      "text": "C#STRUCTURE#;#STRUCTURE#",
+      "description": "Destroy the first structure using the second.",
+      "notes": [
+        "destroy with",
+        "crush with",
+        "break with",
+        "destroy using",
+        "crush using",
+        "break using"
+      ],
+      "tags": [
+        "token"
+      ]
+    },
+    "extra_crush_explosive": {
+      "text": "C<#STRUCTURE#>",
+      "description": "Destroy an explosive structure.",
+      "notes": [
+        "destroy explosive",
+        "crush explosive",
+        "break explosive"
+      ],
+      "tags": [
+        "token"
+      ]
+    },
+    "extra_crush_terrain": {
+      "text": "C#STRUCTURE#;T",
+      "description": "Destroy structure on terrain.",
+      "notes": [
+        "destroy on terrain",
+        "crush on terrain",
+        "break on terrain"
+      ],
+      "tags": [
+        "token"
+      ]
+    },
+    "extra_crush_tied": {
+      "text": "C#STRUCTURE#;M",
+      "description": "Destroy a structure to net zero.",
+      "notes": [
+        "net zero",
+        "destroy both",
+        "crush both",
+        "break both"
+      ],
+      "tags": [
+        "token"
+      ]
+    },
+    "extra_land": {
+      "text": "L",
+      "description": "Land on the ground.",
+      "notes": [
+        "land"
+      ]
+    },
+    "extra_land_structure": {
+      "text": "L#STRUCTURE#",
+      "description": "Land on a structure.",
+      "notes": [
+        "iron boots",
+        "land on structure"
+      ],
+      "tags": [
+        "token"
+      ]
+    },
+    "extra_optional": {
+      "text": ":#SYMBOL#",
+      "description": "Optionally perform the following notation.",
+      "notes": [
+        "optionally"
+      ],
+      "tags": [
+        "token"
+      ]
+    },
+    "extra_optional_notation": {
+      "text": ": #NOTATION# ",
+      "description": "Optionally perform the following notation.",
+      "notes": [
+        "optionally"
+      ],
+      "tags": [
+        "token"
+      ]
+    },
+    "extra_optional_string": {
+      "text": ":> #NOTATION# > ",
+      "description": "Optionally perform the following notation.",
+      "notes": [
+        "optionally"
+      ],
+      "tags": [
+        "token"
+      ]
+    },
+    "extra_move_or_move": {
+      "text": "#SYMBOL#\\#SYMBOL#",
+      "description": "Do one of multiple moves.",
+      "notes": [
+        "or"
+      ],
+      "tags": [
+        "token"
+      ]
+    },
+    "extra_move_or_notation": {
+      "text": "#SYMBOL#\\ #NOTATION# > ",
+      "description": "Do move or following notation.",
+      "notes": [
+        "or"
+      ],
+      "tags": [
+        "token"
+      ]
+    },
+    "extra_notation_or_move": {
+      "text": " #NOTATION# \\#SYMBOL#",
+      "description": "Do notation or following move.",
+      "notes": [
+        "or"
+      ],
+      "tags": [
+        "token"
+      ]
+    },
+    "extra_notation_or_notation": {
+      "text": " #NOTATION# \\ #NOTATION# ",
+      "description": "Do one of multiple notations.",
+      "notes": [
+        "or"
+      ],
+      "tags": [
+        "token"
+      ]
+    },
+    "modifier_wildcard": {
+      "text": "x",
+      "description": "Any modifier.",
+      "notes": [
+        "any modifier"
+      ],
+      "tags": [
+        "modifier"
+      ]
+    },
+    "extra_bloodbend": {
+      "text": "&",
+      "description": "Bloodbend opponent.",
+      "notes": [
+        "bloodbend"
+      ]
+    },
+    "extra_repeat_end_specific": {
+      "text": "...#NUMBER#",
+      "description": "End specified repeat.",
+      "notes": [
+        "end repeat"
+      ],
+      "tags": [
+        "token"
+      ]
+    },
+    "extra_explosive_move": {
+      "text": "e",
+      "description": "Move structure using explosives.",
+      "notes": [
+        "move with explosives",
+        "trampoline"
+      ],
+      "tags": [
+        "modifier"
+      ]
+    },
+    "extra_restrictive": {
+      "text": "~~#NOTATION#~~",
+      "description": "Don't perform notation.",
+      "notes": [
+        "don't",
+        "stop"
+      ],
+      "tags": [
+        "token"
+      ]
+    },
+    "extra_unmount": {
+      "text": "~~M~~",
+      "description": "Unmount.",
+      "notes": [
+        "unmount"
+      ]
+    },
+    "extra_opening": {
+      "text": "@",
+      "description": "Perform at the start of round.",
+      "notes": [
+        "at start",
+        "at the beginning of round"
+      ],
+      "tags": [
+        "shiftstone"
+      ]
+    },
+    "extra_host": {
+      "text": "h@",
+      "description": "On host.",
+      "notes": [
+        "on host"
+      ],
+      "tags": [
+        "shiftstone"
+      ]
+    },
+    "extra_client": {
+      "text": "c@",
+      "description": "On client.",
+      "notes": [
+        "on client"
+      ],
+      "tags": [
+        "shiftstone"
+      ]
+    },
+    "extra_condition": {
+      "text": "__#NOTATION#__",
+      "description": "Continue if condition is met.",
+      "notes": [
+        "conditional"
+      ],
+      "tags": [
+        "token"
+      ]
+    },
+    "extra_vocal": {
+      "text": "\"#TEXT#\"",
+      "description": "Say the following.",
+      "notes": [
+        "say",
+        "tell",
+        "chant",
+        "speak"
+      ],
+      "tags": [
+        "token"
+      ]
+    },
+    "specification_aerial": {
+      "text": "A",
+      "description": "Describes flight.",
+      "notes": [
+        "in the air",
+        "aerial"
+      ]
+    },
+    "specification_degree_turn": {
+      "text": "t#NUMBER#",
+      "description": "Turn a specific amount of degrees.",
+      "notes": [
+        "turn degrees"
+      ],
+      "tags": [
+        "token" 
+      ]
+    },
+    "specification_approximate_turn": {
+      "text": "t~#NUMBER#",
+      "description": "Turn approximately the specified amount of degrees.",
+      "notes": [
+        "turn approximately degrees"
+      ],
+      "tags": [
+        "token"
+      ]
+    },
+    "specification_turn_left": {
+      "text": "tl",
+      "description": "Turn left 90 degrees.",
+      "notes": [
+        "turn left"
+      ]
+    },
+    "specification_turn_right": {
+      "text": "tr",
+      "description": "Turn right 90 degrees",
+      "notes": [
+        "turn right"
+      ]
+    },
+    "specification_last_structure": {
+      "text": "-#NUMBER#",
+      "description": "Specify a structure in reverse order (right to left).",
+      "notes": [
+        "last structure"
+      ],
+      "tags": [
+        "token"
+      ]
+    },
+    "specification_opponent_action": {
+      "text": "{#NOTATION# }",
+      "description": "Opponent performs the following notation.",
+      "notes": [
+        "opponent does"
+      ],
+      "tags": [
+        "token"
+      ]
+    },
+    "specification_persisting": {
+      "text": "`#NOTATION#`",
+      "description": "Keep performing the following notation.",
+      "notes": [
+        "persist",
+        "keep doing"
+      ],
+      "tags": [
+        "token"
+      ]
+    },
+    "specification_line_of_sight": {
+      "text": "***^***",
+      "description": "Keep line of sight.",
+      "notes": [
+        "line of sight"
+      ]
+    },
+    "indicator": {
+      "text": ";#INDICATORS#",
+      "description": "Describes position or other relative information.",
+      "notes": [
+        "#1#."
+      ],
+      "tags": [
+        "token"
+      ]
+    },
+    "indicator_emphasis": {
+      "text": "**#INDICATORS#**",
+      "description": "Emphasis on the indicators.",
+      "notes": [
+        "far #1#"
+      ],
+      "tags": [
+        "token",
+        "indicator"
+      ]
+    },
+    "indicator_forwards": {
+      "text": "f",
+      "description": "Forwards.",
+      "notes": [
+        "forwards",
+        "front"
+      ],
+      "tags": [
+        "indicator"
+      ]
+    },
+    "indicator_backwards": {
+      "text": "b",
+      "description": "Back.",
+      "notes": [
+        "backwards",
+        "behind"
+      ],
+      "tags": [
+        "indicator"
+      ]
+    },
+    "indicator_left": {
+      "text": "l",
+      "description": "Left.",
+      "notes": [
+        "left"
+      ],
+      "tags": [
+        "indicator"
+      ]
+    },
+    "indicator_right": {
+      "text": "r",
+      "description": "Right.",
+      "notes": [
+        "right"
+      ],
+      "tags": [
+        "indicator"
+      ]
+    },
+    "indicator_up": {
+      "text": "u",
+      "description": "Up.",
+      "notes": [
+        "up",
+        "above"
+      ],
+      "tags": [
+        "indicator"
+      ]
+    },
+    "indicator_down": {
+      "text": "d",
+      "description": "Down.",
+      "notes": [
+        "down",
+        "below"
+      ],
+      "tags": [
+        "indicator"
+      ]
+    },
+    "indicator_side": {
+      "text": "s",
+      "description": "To the side.",
+      "notes": [
+        "side"
+      ],
+      "tags": [
+        "indicator"
+      ]
+    },
+    "indicator_opponent": {
+      "text": "o",
+      "description": "Towards the opponent.",
+      "notes": [
+        "from the opponent",
+        "towards the opponent"
+      ],
+      "tags": [
+        "indicator"
+      ]
+    },
+    "indicator_self": {
+      "text": "i",
+      "description": "Towards yourself.",
+      "notes": [
+        "from yourself",
+        "towards yourself"
+      ],
+      "tags": [
+        "indicator"
+      ]
+    },
+    "indicator_howard": {
+      "text": "[howard]",
+      "description": "Towards Howard.",
+      "notes": [
+        "from Howard",
+        "towards Howard"
+      ],
+      "tags": [
+        "indicator"
+      ]
+    },
+    "indicator_aerial": {
+      "text": "A",
+      "description": "In the air.",
+      "notes": [
+        "in the air",
+        "airborne"
+      ],
+      "tags": [
+        "indicator"
+      ]
+    },
+    "indicator_structure": {
+      "text": "#STRUCTUREWSTATE#",
+      "description": "Relative to a structure.",
+      "tags": [
+        "token",
+        "indicator"
+      ]
+    },
+    "indicator_joystick": {
+      "text": "|",
+      "description": "Mount in joystick position.",
+      "tags": [
+        "indicator"
+      ]
+    },
+    "indicator_handlebars": {
+      "text": "--",
+      "description": "Mount in handlebars position.",
+      "tags": [
+        "indicator"
+      ]
+    },
+    "specific_state_stronger": {
+      "text": "#STRUCTURE#+",
+      "description": "Stronger than given structure.",
+      "tags": [
+        "token",
+        "structure"
+      ]
+    },
+    "specific_state_weaker": {
+      "text": "#STRUCTURE#-",
+      "description": "Weaker than given structure.",
+      "tags": [
+        "token",
+        "structure"
+      ]
+    }
+  }
+}

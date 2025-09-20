@@ -1,0 +1,424 @@
+{
+  "chart_names": [
+    "standard",
+    "normal",
+    "normnote"
+  ],
+  "properties": {
+    "fuzzy_match_symbols": false,
+    "order_after_mods": true,
+    "separate_shiftstones": true,
+    "strict_numbering": false,
+    "embedded_notes": false
+  },
+  "symbols": {
+    "structure_disc": {
+      "text": "d",
+      "description": "Summon a disc.",
+      "notes": [
+        "summon a disc"
+      ],
+      "tags": [
+        "structure",
+        "mirrorable"
+      ]
+    },
+    "structure_pillar": {
+      "text": "p",
+      "description": "Summon a pillar.",
+      "notes": [
+        "summon a pillar"
+      ],
+      "tags": [
+        "structure",
+        "mirrorable"
+      ]
+    },
+    "structure_ball": {
+      "text": "b",
+      "description": "Summon a ball.",
+      "notes": [
+        "summon a ball"
+      ],
+      "tags": [
+        "structure",
+        "mirrorable"
+      ]
+    },
+    "structure_cube": {
+      "text": "c",
+      "description": "Summon a cube.",
+      "notes": [
+        "summon a cube"
+      ],
+      "tags": [
+        "structure"
+      ]
+    },
+    "structure_wall": {
+      "text": "w",
+      "description": "Summon a wall",
+      "notes": [
+        "summon a wall"
+      ],
+      "tags": [
+        "structure"
+      ]
+    },
+    "structure_boulder": {
+      "text": "o",
+      "description": "Perform on a boulder.",
+      "notes": [
+        "perform on a boulder"
+      ],
+      "tags": [
+        "structure"
+      ]
+    },
+    "structure_wildcard": {
+      "text": "s",
+      "description": "Perform on any structure.",
+      "notes": [
+        "perform on any structure"
+      ],
+      "tags": [
+        "structure"
+      ]
+    },
+    "mod_straight": {
+      "text": "S",
+      "description": "Straight modifier.",
+      "notes": [
+        "straight"
+      ],
+      "tags": [
+        "modifier",
+        "mirrorable"
+      ]
+    },
+    "mod_uppercut": {
+      "text": "U",
+      "description": "Uppercut modifier.",
+      "notes": [
+        "uppercut"
+      ],
+      "tags": [
+        "modifier",
+        "mirrorable"
+      ]
+    },
+    "mod_kick": {
+      "text": "K",
+      "description": "Kick modifier.",
+      "notes": [
+        "kick"
+      ],
+      "tags": [
+        "modifier",
+        "mirrorable"
+      ]
+    },
+    "mod_ground": {
+      "text": "G",
+      "description": "Ground modifier.",
+      "notes": [
+        "ground",
+        "stomp"
+      ],
+      "tags": [
+        "modifier"
+      ]
+    },
+    "mod_parry": {
+      "text": "P",
+      "description": "Parry modifier.",
+      "notes": [
+        "parry"
+      ],
+      "tags": [
+        "modifier"
+      ]
+    },
+    "mod_hold": {
+      "text": "H",
+      "description": "Hold modifier.",
+      "notes": [
+        "hold"
+      ],
+      "tags": [
+        "modifier",
+        "mirrorable"
+      ]
+    },
+    "mod_flick": {
+      "text": "F",
+      "description": "Flick modifier.",
+      "notes": [
+        "flick"
+      ],
+      "tags": [
+        "modifier",
+        "mirrorable"
+      ]
+    },
+    "mod_explode": {
+      "text": "E",
+      "description": "Explode modifier.",
+      "notes": [
+        "explode"
+      ],
+      "tags": [
+        "modifier"
+      ]
+    },
+    "movement_dash": {
+      "text": "D",
+      "description": "Dash.",
+      "notes": [
+        "dash"
+      ],
+      "tags": [
+        "mirrorable"
+      ]
+    },
+    "movement_jump": {
+      "text": "J",
+      "description": "Jump.",
+      "notes": [
+        "jump"
+      ],
+      "tags": [
+        "mirrorable"
+      ]
+    },
+    "movement_walk": {
+      "text": "m",
+      "description": "Walk, direction not specified.",
+      "notes": [
+        "walk",
+        "move"
+      ]
+    },
+    "movement_run": {
+      "text": "R",
+      "description": "Run, direction not specified.",
+      "notes": [
+        "run"
+      ]
+    },
+    "movement_turn": {
+      "text": "t",
+      "description": "Turn, direction not specified.",
+      "notes": [
+        "turn",
+        "pivot"
+      ]
+    },
+    "movement_u_turn": {
+      "text": "u",
+      "description": "Turn backwards by pulling back on the joystick.",
+      "notes": [
+        "u-turn",
+        "180"
+      ]
+    },
+    "movement_lock_on": {
+      "text": "^",
+      "description": "Lock on opponent by pushing up on the joystick.",
+      "notes": [
+        "lock on",
+        "face opponent",
+        "look at opponent"
+      ]
+    },
+    "flight_bump": {
+      "text": "B",
+      "description": "Bump with strucutre(s).",
+      "notes": [
+        "bump"
+      ]
+    },
+    "flight_mount": {
+      "text": "M",
+      "description": "Mount structure(s).",
+      "notes": [
+        "mount"
+      ]
+    },
+    "shiftstone_separator": {
+      "text": "/",
+      "description": "Separates shiftstones from rest of notation.",
+      "tags": [
+        "shiftstone_separator"
+      ]
+    },
+    "shiftstone_charge": {
+      "text": "C",
+      "description": "Perform with charge stone equipped.",
+      "notes": [
+        "with charge"
+      ],
+      "tags": [
+        "shiftstone"
+      ]
+    },
+    "shiftstone_flow": {
+      "text": "F",
+      "description": "Perform with flow stone equipped.",
+      "notes": [
+        "with flow"
+      ],
+      "tags": [
+        "shiftstone"
+      ]
+    },
+    "shiftstone_stubborn": {
+      "text": "S",
+      "description": "Perform with stubborn stone equipped.",
+      "notes": [
+        "with stubborn"
+      ],
+      "tags": [
+        "shiftstone"
+      ]
+    },
+    "shiftstone_volatile": {
+      "text": "V",
+      "description": "Perform with volatile stone equipped.",
+      "notes": [
+        "with volatile"
+      ],
+      "tags": [
+        "shiftstone"
+      ]
+    },
+    "shift_effect_guard": {
+      "text": "g",
+      "description": "Trigger guard stone effect.",
+      "notes": [
+        "guard"
+      ]
+    },
+    "shift_effect_charge": {
+      "text": "**#MODIFIER#**",
+      "description": "Trigger charge stone effect.",
+      "notes": [
+        "charge",
+        "trigger charge",
+        "activate charge"
+      ],
+      "tags": [
+        "token"
+      ]
+    },
+    "structure_state_grounded": {
+      "text": "[#STRUCTURE#]",
+      "description": "Grounded structure.",
+      "notes": [
+        "grounded"
+      ],
+      "tags": [
+        "structure_state",
+        "token"
+      ]
+    },
+    "structure_state_free": {
+      "text": "(#STRUCTURE#)",
+      "description": "Free (ungrounded) structure.",
+      "notes": [
+        "free",
+        "ungrounded"
+      ],
+      "tags": [
+        "structure_state",
+        "token"
+      ]
+    },
+    "structure_state_incoming": {
+      "text": "{#STRUCTURE#}",
+      "description": "Incoming/moving structure.",
+      "notes": [
+        "incoming",
+        "moving"
+      ],
+      "tags": [
+        "structure_state",
+        "token"
+      ]
+    },
+    "structure_state_explosive": {
+      "text": "<#STRUCTURE#>",
+      "description": "Explosive structure.",
+      "notes": [
+        "explosive",
+        "with explode"
+      ],
+      "tags": [
+        "structure_state",
+        "token"
+      ]
+    },
+    "structure_state_wildcard": {
+      "text": "|#STRUCTURE#|",
+      "description": "Structure in any state.",
+      "notes": [
+        "any state"
+      ],
+      "tags": [
+        "structure_state",
+        "token"
+      ]
+    },
+    "mod_state_mirror": {
+      "text": "*#MIRROR#*",
+      "description": "Perform the modifier mirrored.",
+      "notes": [
+        "mirrored",
+        "backwards"
+      ],
+      "tags": [
+        "token"
+      ]
+    },
+    "cadence_arrow": {
+      "text": " > ",
+      "description": "Splits notation for readability or cadence."
+    },
+    "cadence_pause": {
+      "text": ".",
+      "description": "Pause for a short period of time.",
+      "notes": [
+        "pause"
+      ]
+    },
+    "cadence_wait": {
+      "text": "_",
+      "description": "Wait a longer period of time.",
+      "notes": [
+        "wait"
+      ]
+    },
+    "cadence_repeat": {
+      "text": "...",
+      "description": "Repeat previous part of notation.",
+      "notes": [
+        "repeat"
+      ]
+    },
+    "cadence_base_pose": {
+      "text": "=",
+      "description": "Base summoning pose, specified for inbetweeners.",
+      "notes": [
+        "base pose",
+        "inbetweener"
+      ]
+    },
+    "clarity_note": {
+      "text": "!",
+      "description": "Extra detail that can't be notated.",
+      "tags": [
+        "note_symbol"
+      ]
+    }
+  }
+}
