@@ -1,7 +1,7 @@
 # General Transcript Converter [GTC]
 A python script that translates between RUMBLE VR notations.
 
-> [IMPORTANT!]
+> [!IMPORTANT]
 > STATUS UPDATE: This is the result of several months of offline work on the project. Thank you for your patience!
 
 ## How does this work?
@@ -34,7 +34,7 @@ Tags determine which tokens can replace a symbol, alongside additional logic, su
 - **#SYMBOL#** — A singular instance of any symbol.
 - **#NOTATION#** — Any valid notation.
 - **#TEXT#** — Any string of text.
-> [WARNING!]
+> [!WARNING]
 > Using **#NOTATION#** and **#TEXT#** without surrounding it in other characters will lead to everything after its usage to be considered part of the symbol it's used in.
 
 ## How to add custom system/modify existing one?
