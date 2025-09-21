@@ -202,7 +202,11 @@ class Converter:
     #                                      (_/
 
     def translate(
-        self, input_chart: dict[str, Any], output_chart: dict[str, Any], notation: str
+        self,
+        input_chart: dict[str, Any],
+        output_chart: dict[str, Any],
+        notation: str,
+        *, preserved_regex: dict[str, str] = None
     ) -> str:
         """
         Translates notation from input chart to output chart.
@@ -245,7 +249,9 @@ class Converter:
         #  - [F] Strict numbering
         #  - [ ] Fuzzy match symbols (H) {L}
         # [F] Insert tokens (M)
-        #  - [R] Support symbols with multiple tokens. {H}  <--<<
+        #  - [R] Support symbols with multiple tokens. {H}
+        #  - [ ] Handle indicators with a more modular system.
+        #  - [ ] Fix #STRWSTATE# {H}
         #  - [R] Fix #NUMBER# token to use chart digits.
         #  - [ ] Fix structure numbering after reinsertion. (Make numbering post-translation?) {L}
         #  - [ ] Include replaced notation when turning symbol to note {H}
@@ -416,7 +422,7 @@ class Converter:
             indicator_chart = input_chart.copy()
             indicator_chart["symbols"] = indicator_symbols
             indicator_chart["chart_names"] = ["indicator chart"]
-            del indicator_symbols
+            del indicator_symbols, find_escaped_symbols_with_tag
 
             # WARN: Replace this with a modular system later.
             if "insanity" in input_chart["chart_names"]:
@@ -426,20 +432,23 @@ class Converter:
                 }
 
             # Token regex to store and replace symbols.
-            regex_patterns = {
-                # WARN: Replace digits with numbers from chart.
-                "#STRUCTURE#": f"\\d+|{"\\d*|".join(structures)}\\d*",
-                # "#STRUCTUREWSTATE#": f"{"|".join(structure_states)}".replace("#STRUCTURE#", f"(?:\\d+|{"\\d*|".join(structures)}\\d*)"),
-                "#MODIFIER#": f"{"|".join(modifiers)}",
-                "#MIRROR#": f"{"|".join(mirrorables)}",
-                "#NUMBER#": f"(?:{"|".join(numbers)})+",
-                "#NOTATION#": f"(?:{"+|".join(symbols)})+".replace("#STRUCTURE#", f"(?:\\d+|{"\\d*|".join(structures)}\\d*)"),
-                "#SYMBOL#": f"{"|".join(symbols)}",
-                "#TEXT#": r"\w+",
-                "#INDICATORS#": f"(?:{"|".join(indicators)})+"
-            }
+            if preserved_regex:
+                regex_patterns = preserved_regex
+            else:
+                regex_patterns = {
+                    # WARN: Replace digits with numbers from chart.
+                    "#STRUCTURE#": f"\\d+|{"\\d*|".join(structures)}\\d*",
+                    "#STRWSTATE#": f"{"|".join(structure_states)}".replace("#STRUCTURE#", f"(?:\\d+|{"\\d*|".join(structures)}\\d*)"),
+                    "#MODIFIER#": f"{"|".join(modifiers)}",
+                    "#MIRROR#": f"{"|".join(mirrorables)}",
+                    "#NUMBER#": f"(?:{"|".join(numbers)})+",
+                    "#NOTATION#": f"(?:{"+|".join(symbols)})+".replace("#STRUCTURE#", f"(?:\\d+|{"\\d*|".join(structures)}\\d*)"),
+                    "#SYMBOL#": f"{"|".join(symbols)}",
+                    "#TEXT#": r"\w+",
+                    "#POSITIONALINDICATORS#": f"(?:{"|".join(indicators)})+".replace("#STRWSTATE#", f"(?:{")|(?:".join(structure_states)})".replace("#STRUCTURE#", f"(?:\\d+|{"\\d*|".join(structures)}\\d*)"))
+                }
             del structures, structure_states, modifiers, mirrorables
-            del symbols, indicators, numbers, find_escaped_symbols_with_tag
+            del symbols, indicators, numbers
 
             input_shiftstone_separators = {
                 id: symbol["text"] for id, symbol in input_symbols.items()
@@ -500,25 +509,28 @@ class Converter:
             for line_index in range(len(notation)):
                 line = notation[line_index]
                 for expression in symbol_expressions.keys():
+                    print(symbol_expressions[expression])
                     for match in finditer(expression, line):
-                        print(f"GROUP FOUND: {match.group()}\nSYMBOL: {symbol_expressions[expression]}\n")
+                        print(f"GROUP FOUND: {match.group()}\nSYMBOL: {symbol_expressions[expression]}\nEXPRESSION: {expression}\n")
                         tokens_in_order = findall(
                             f"({"|".join(regex_patterns.keys())})",
                             symbol_expressions[expression]
                         )
+                        print(tokens_in_order)
                         for group_index in range(len(match.groups())):
-                            if tokens_in_order[group_index] == "#INDICATORS#":
-                                match_input_chart = indicator_chart
+                            if tokens_in_order[group_index] == "#POSITIONALINDICATORS#":
+                                translated_match = match_converter.translate(
+                                    indicator_chart,
+                                    output_chart,
+                                    match.group(group_index + 1),
+                                    preserved_regex=regex_patterns
+                                )
                             else:
-                                match_input_chart = input_chart
-                            print(tokens_in_order[group_index])
-                            print(tokens_in_order[group_index] == "#INDICATORS#")
-                            print(match_input_chart["chart_names"])
-                            translated_match = match_converter.translate(
-                                match_input_chart,
-                                output_chart,
-                                match.group(group_index + 1)
-                            )
+                                translated_match = match_converter.translate(
+                                    input_chart,
+                                    output_chart,
+                                    match.group(group_index + 1)
+                                )
                             matches.append(
                                 (line_index, match.start(group_index + 1), translated_match)
                             )

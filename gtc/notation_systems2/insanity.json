@@ -816,7 +816,7 @@
       ]
     },
     "indicator": {
-      "text": ";#INDICATORS#",
+      "text": ";#POSITIONALINDICATORS#",
       "description": "Describes position or other relative information.",
       "notes": [
         "#1#."
@@ -826,7 +826,7 @@
       ]
     },
     "indicator_emphasis": {
-      "text": "**#INDICATORS#**",
+      "text": "**#POSITIONALINDICATORS#**",
       "description": "Emphasis on the indicators.",
       "notes": [
         "far #1#"
@@ -955,7 +955,7 @@
       ]
     },
     "indicator_structure": {
-      "text": "#STRUCTUREWSTATE#",
+      "text": "#STRWSTATE#",
       "description": "Relative to a structure.",
       "tags": [
         "token",
