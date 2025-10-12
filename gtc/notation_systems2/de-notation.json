@@ -18,6 +18,7 @@
         "summon a disc"
       ],
       "tags": [
+        "summon",
         "structure",
         "mirrorable"
       ]
@@ -29,6 +30,7 @@
         "summon a pillar"
       ],
       "tags": [
+        "summon",
         "structure",
         "mirrorable"
       ]
@@ -40,6 +42,7 @@
         "summon a ball"
       ],
       "tags": [
+        "summon",
         "structure",
         "mirrorable"
       ]
@@ -51,6 +54,7 @@
         "summon a cube"
       ],
       "tags": [
+        "summon",
         "structure"
       ]
     },
@@ -61,6 +65,7 @@
         "summon a wall"
       ],
       "tags": [
+        "summon",
         "structure"
       ]
     },
@@ -71,6 +76,7 @@
         "perform on a boulder"
       ],
       "tags": [
+        "summon",
         "structure"
       ]
     },
@@ -81,6 +87,7 @@
         "perform on any structure"
       ],
       "tags": [
+        "summon",
         "structure"
       ]
     },

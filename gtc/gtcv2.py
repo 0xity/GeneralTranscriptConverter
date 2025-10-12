@@ -405,6 +405,7 @@ class Converter:
             print(f"TOKEN SYMBOLS: {token_symbols}")
 
             # Temp queries for the tokens.
+            summons = find_escaped_symbols_with_tag("summon")
             structures = find_escaped_symbols_with_tag("structure")
             structure_states = find_escaped_symbols_with_tag("structure_state")
             modifiers = find_escaped_symbols_with_tag("modifier")
@@ -434,15 +435,16 @@ class Converter:
             # Token regex to store and replace symbols.
             regex_patterns = {
                 # WARN: Replace digits with numbers from chart.
-                "#STRUCTURE#": f"\\d+|{"\\d*|".join(structures)}\\d*",
-                "#STRWSTATE#": f"{"|".join(structure_states)}".replace("#STRUCTURE#", f"(?:\\d+|{"\\d*|".join(structures)}\\d*)"),
-                "#MODIFIER#": f"{"|".join(modifiers)}",
-                "#MIRROR#": f"{"|".join(mirrorables)}",
+                "#SUMMON#": f"\\d+|{"\\d*|".join(summons)}\\d*",
+                "#STRUCTURE#": f"\\d+|{"\\d*|".join(structures)}\\d*".replace("#SUMMON#", f"\\d+|{"\\d*|".join(summons)}\\d*"),
+                "#STRWSTATE#": "|".join(structure_states).replace("#STRUCTURE#", f"(?:\\d+|{"\\d*|".join(structures)}\\d*)".replace("#SUMMON#", f"\\d+|{"\\d*|".join(summons)}\\d*").replace("#SUMMON#", f"\\d+|{"\\d*|".join(summons)}\\d*")),
+                "#MODIFIER#": "|".join(modifiers),
+                "#MIRROR#": "|".join(mirrorables),
                 "#NUMBER#": f"(?:{"|".join(numbers)})+",
                 "#NOTATION#": f"(?:{"+|".join(symbols)})+".replace("#STRUCTURE#", f"(?:\\d+|{"\\d*|".join(structures)}\\d*)"),
-                "#SYMBOL#": f"{"|".join(symbols)}",
+                "#SYMBOL#": "|".join(symbols),
                 "#TEXT#": r"\w+",
-                "#POSITIONALINDICATORS#": f"(?:{"|".join(indicators)})+".replace("#STRWSTATE#", f"(?:{")|(?:".join(structure_states)})".replace("#STRUCTURE#", f"(?:\\d+|{"\\d*|".join(structures)}\\d*)"))
+                "#POSITIONALINDICATORS#": f"(?:{"|".join(indicators)})+".replace("#STRWSTATE#", f"(?:{")|(?:".join(structure_states)})".replace("#STRUCTURE#", f"(?:\\d+|{"\\d*|".join(structures)}\\d*)".replace("#SUMMON#", f"\\d+|{"\\d*|".join(summons)}\\d*")))
             }
             del structures, structure_states, modifiers, mirrorables
             del symbols, indicators, numbers
