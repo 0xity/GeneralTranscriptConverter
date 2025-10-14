@@ -311,7 +311,7 @@
       ]
     },
     "structure_state_grounded": {
-      "text": "on a grounded #STRUCTURE# ",
+      "text": "on a grounded #STRUCTURE#, ",
       "description": "Grounded structure.",
       "notes": [
         "grounded"
@@ -322,7 +322,7 @@
       ]
     },
     "structure_state_free": {
-      "text": "on a free #STRUCTURE# ",
+      "text": "on a free #STRUCTURE#, ",
       "description": "Free (ungrounded) structure.",
       "notes": [
         "free",
@@ -334,7 +334,7 @@
       ]
     },
     "structure_state_incoming": {
-      "text": "on an incoming #STRUCTURE# ",
+      "text": "on an incoming #STRUCTURE#, ",
       "description": "Incoming/moving structure.",
       "notes": [
         "incoming",
@@ -346,7 +346,7 @@
       ]
     },
     "structure_state_explosive": {
-      "text": "on an explosive #STRUCTURE# ",
+      "text": "on an explosive #STRUCTURE#, ",
       "description": "Explosive structure.",
       "notes": [
         "explosive",
