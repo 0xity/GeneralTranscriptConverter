@@ -206,7 +206,8 @@ class Converter:
         input_chart: dict[str, Any],
         output_chart: dict[str, Any],
         notation: str,
-        *, indicator_priority: bool = False
+        *, indicator_priority: bool = False,
+        return_ids: bool = False
     ) -> str:
         """
         Translates notation from input chart to output chart.
@@ -250,12 +251,12 @@ class Converter:
         #  - [ ] Fuzzy match symbols (H) {L}
         # [F] Insert tokens (M)
         #  - [R] Support symbols with multiple tokens. {H}
-        #  - [ ] Handle indicators with a more modular system.
-        #  - [ ] Fix #STRWSTATE# {H}
+        #  - [R] Handle indicators with a more modular system.
+        #  - [B] Fix #STRWSTATE# {H}
         #  - [R] Fix #NUMBER# token to use chart digits.
         #  - [ ] Fix structure numbering after reinsertion. (Make numbering post-translation?) {L}
         #  - [ ] Include replaced notation when turning symbol to note {H}
-        # [ ] Symbol overrides {H}
+        # [F] Symbol overrides {H}
         # [ ] Token and tokenless symbol conversion (E) {L}
         #  - [ ] Tokenless to token
         #  - [ ] Token to tokenless
@@ -419,6 +420,7 @@ class Converter:
             indicator_symbols = {
                 id: symbol for id, symbol in input_symbols.items()
                 if check_if_has_tag(symbol, "indicator")
+                or check_if_has_tag(symbol, "structure_state")
             }
             indicator_chart = input_chart.copy()
             indicator_chart["symbols"] = indicator_symbols
@@ -436,8 +438,8 @@ class Converter:
             regex_patterns = {
                 # WARN: Replace digits with numbers from chart.
                 "#SUMMON#": f"\\d+|{"\\d*|".join(summons)}\\d*",
-                "#STRUCTURE#": f"\\d+|{"\\d*|".join(structures)}\\d*".replace("#SUMMON#", f"\\d+|{"\\d*|".join(summons)}\\d*"),
-                "#STRWSTATE#": "|".join(structure_states).replace("#STRUCTURE#", f"(?:\\d+|{"\\d*|".join(structures)}\\d*)".replace("#SUMMON#", f"\\d+|{"\\d*|".join(summons)}\\d*").replace("#SUMMON#", f"\\d+|{"\\d*|".join(summons)}\\d*")),
+                "#STRUCTURE#": f"\\d+|{"\\d*|".join(structures)}\\d*".replace("#SUMMON#", f"(?:\\d+|{"\\d*|".join(summons)}\\d*)"),
+                "#STRWSTATE#": "|".join(structure_states).replace("#STRUCTURE#", f"(?:\\d+|{"\\d*|".join(structures)}\\d*)").replace("#SUMMON#", f"(?:\\d+|{"\\d*|".join(summons)}\\d*)"),
                 "#MODIFIER#": "|".join(modifiers),
                 "#MIRROR#": "|".join(mirrorables),
                 "#NUMBER#": f"(?:{"|".join(numbers)})+",
@@ -508,18 +510,17 @@ class Converter:
             for line_index in range(len(notation)):
                 line = notation[line_index]
                 for expression in symbol_expressions.keys():
-                    print(symbol_expressions[expression])
-                    for match in finditer(expression, line):
+                    for match in reversed(list(finditer(expression, line))):
                         print(f"GROUP FOUND: {match.group()}\nSYMBOL: {symbol_expressions[expression]}\nEXPRESSION: {expression}\n")
                         tokens_in_order = findall(
                             f"({"|".join(regex_patterns.keys())})",
                             symbol_expressions[expression]
                         )
-                        print(tokens_in_order)
                         for group_index in range(len(match.groups())):
+                            print("\nTRANSLATING TOKEN\n")
                             if tokens_in_order[group_index] == "#POSITIONALINDICATORS#":
                                 translated_match = match_converter.translate(
-                                    indicator_chart,
+                                    input_chart,
                                     output_chart,
                                     match.group(group_index + 1),
                                     indicator_priority=True
@@ -530,12 +531,15 @@ class Converter:
                                     output_chart,
                                     match.group(group_index + 1)
                                 )
+                                print(f"TRANSLATED MATCH: {translated_match}")
                             matches.append(
                                 (line_index, match.start(group_index + 1), translated_match)
                             )
+                        print(f"LINE BEFORE: {line}")
                         line = line[:match.start()] + symbol_expressions[expression] + line[match.end():]
+                        print(f"LINE AFTER: {line}")
                 matches.sort(key=lambda match: (match[0], match[1]))
-                print(matches)
+                print(f"MATCHES: {matches}")
                 notation[line_index] = line
             del match_converter
 
@@ -838,6 +842,8 @@ class Converter:
             #=======================#
 
                 print(f"IDS: {symbols_to_ids}")
+                if return_ids:
+                    return symbols_to_ids
 
                 input_symbols = input_chart["symbols"]  # Reinclude shiftstone symbols.
 
@@ -1093,6 +1099,13 @@ class Converter:
                         print(f"CURRENT TRANSLATED NOTATION: {translated_notation}")
                         id_index += 1
                     else:
+                        if "overrides" in input_symbols[id]:
+                            override = input_symbols[id]["overrides"][0]
+                            translated_notation += output_symbols[override]["text"]
+                            print(f"CURRENT TRANSLATED NOTATION: {translated_notation}")
+                            id_index += 1
+                            continue
+
                         # Handle invalid ID.
                         if self.fast:
                             if output_note_symbol:
@@ -1201,8 +1214,23 @@ class Converter:
                 )
 
             print("\n")
+            """
             if "text" in output_chart["chart_names"] and "english" in output_chart["chart_names"]:
-                return translated_notation.strip()[:-1].replace(", structure", " structure")
+                translated_notation = sub(r"structure (\d), structure (\d)", r"structure \g<1>\g<2>", translated_notation)
+                translated_notation = translated_notation.replace(", structure", " structure")
+                english_summons = [
+                    symbol["text"][:-2] for symbol in output_symbols.values()
+                    if check_if_has_tag(symbol, "summon")
+                ]
+                english_summons = f"({"|".join(english_summons)})"
+                translated_notation = sub(fr"{english_summons} structure", r"\g<1> as structure", translated_notation)
+                translated_notation = sub(fr"(?:^|(?<=, )){english_summons}", r"summon \g<1>", translated_notation)
+                print(f"LOOK HERE ---> {translated_notation}")
+                note_texts = findall(r"\n\(note\), (.*)", translated_notation)
+                translated_notation = sub(r"\n\(note\), .*", "", translated_notation)
+                for text in note_texts:
+                    translated_notation = translated_notation.replace("(note)", text, 1)
+            """
             return translated_notation.strip()
         except KeyboardInterrupt:
             exit("\nExiting...")
