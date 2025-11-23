@@ -758,6 +758,9 @@
       ],
       "tags": [
         "token" 
+      ],
+      "overrides": [
+        "movement_turn"
       ]
     },
     "specification_approximate_turn": {
@@ -768,6 +771,9 @@
       ],
       "tags": [
         "token"
+      ],
+      "overrides": [
+        "movement_turn"
       ]
     },
     "specification_turn_left": {
@@ -775,6 +781,9 @@
       "description": "Turn left 90 degrees.",
       "notes": [
         "turn left"
+      ],
+      "overrides": [
+        "movement_turn"
       ]
     },
     "specification_turn_right": {
@@ -782,6 +791,9 @@
       "description": "Turn right 90 degrees",
       "notes": [
         "turn right"
+      ],
+      "overrides": [
+        "movement_turn"
       ]
     },
     "specification_last_structure": {
@@ -829,7 +841,8 @@
         "#1#."
       ],
       "tags": [
-        "token"
+        "token",
+        "macro_note"
       ]
     },
     "indicator_emphasis": {

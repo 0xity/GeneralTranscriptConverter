@@ -274,6 +274,8 @@ class Converter:
             translating_shiftstones = False
             start_index, end_index = 0, 1
             translated_notation = ""
+            if return_ids:
+                translated_notation = []
             notation = notation.splitlines()
             regex_chars = ["\\", ".", "^", "$", "*", "+", "-", "?", "(", ")", "[", "]", "{", "}", "|", "/"]
             symbols_to_ids = []
@@ -843,7 +845,8 @@ class Converter:
 
                 print(f"IDS: {symbols_to_ids}")
                 if return_ids:
-                    return symbols_to_ids
+                    translated_notation += symbols_to_ids
+                    continue
 
                 input_symbols = input_chart["symbols"]  # Reinclude shiftstone symbols.
 
@@ -1106,6 +1109,20 @@ class Converter:
                             id_index += 1
                             continue
 
+                        # INFO:
+                        # If macro note tag in symbol,
+                        #   get the note part of every symbol replaced by the token,
+                        #   concatenate them into one string,
+                        #   insert in notes,
+                        #   replace symbol with note symbol
+                        #
+                        # TODO:
+                        # create a variable that stores which token replacements are inserted
+                        # create dictionary with ID: expression pairs?
+
+                        if check_if_has_tag(input_symbols[id], "macro_note"):
+                            pass
+
                         # Handle invalid ID.
                         if self.fast:
                             if output_note_symbol:
@@ -1214,24 +1231,46 @@ class Converter:
                 )
 
             print("\n")
-            """
+
+            # Post processing for translation to english.
+            # This means you can't translate english back into notation,
+            #   at least not by copying the output of translating to english.
+            # I'll replace it with a much better system in the future,
+            #   if demand for it is high enough.  - @0xity
+
             if "text" in output_chart["chart_names"] and "english" in output_chart["chart_names"]:
+                # Support for structures with multiple digits.
+                # WARN: Make a number symbol with digit token to avoid this.
                 translated_notation = sub(r"structure (\d), structure (\d)", r"structure \g<1>\g<2>", translated_notation)
+
+                # Remove comma before structure numbers.
                 translated_notation = translated_notation.replace(", structure", " structure")
+
                 english_summons = [
                     symbol["text"][:-2] for symbol in output_symbols.values()
                     if check_if_has_tag(symbol, "summon")
                 ]
                 english_summons = f"({"|".join(english_summons)})"
+
+                # Put "as" between summons and structure numbers.
                 translated_notation = sub(fr"{english_summons} structure", r"\g<1> as structure", translated_notation)
-                translated_notation = sub(fr"(?:^|(?<=, )){english_summons}", r"summon \g<1>", translated_notation)
-                print(f"LOOK HERE ---> {translated_notation}")
+
+                # Put "summon" before summoning structures.
+                translated_notation = sub(fr"(?:(?<=, )){english_summons}", r"summon \g<1>", translated_notation)
+
+                # Replace note symbols in notation with note contents.
                 note_texts = findall(r"\n\(note\), (.*)", translated_notation)
                 translated_notation = sub(r"\n\(note\), .*", "", translated_notation)
                 for text in note_texts:
                     translated_notation = translated_notation.replace("(note)", text, 1)
-            """
-            return translated_notation.strip()
+
+                # Remove extra whitespaces
+                translated_notation = translated_notation.strip()
+
+                # Clear comma at the end of the translation
+                if translated_notation[-1:] == ",":
+                    translated_notation = translated_notation[:-1]
+            return translated_notation
         except KeyboardInterrupt:
             exit("\nExiting...")
 
@@ -1240,9 +1279,14 @@ if __name__ == "__main__":
     try:
         while True:
             stderr.write(header)
-            stderr.write("Press Ctrl+C to exit.\n")
+            stderr.write("Press Ctrl+C to exit.\n\n")
             c = Converter()
             all_charts = c.load_charts()
+            stderr.write("Available systems:\n")
+            for chart in all_charts:
+                stderr.write(f"{chart["chart_names"][0]} ")
+                stderr.write(f"({", ".join(chart["chart_names"][1:])})\n")
+            stderr.write("\n")
             system1 = input("System 1: ").strip().lower()
             system2 = input("System 2: ").strip().lower()
             chart1 = c.find_chart(system1, all_charts)
