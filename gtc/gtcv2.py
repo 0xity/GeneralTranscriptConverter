@@ -243,7 +243,7 @@ class Converter:
         #  - [ ] Fix note insertion order. (Index note symbol position?)
         # [ ] Macro translations (H)
         #  - [ ] Translate note to multiple IDs {L}
-        #  - [ ] Translate multiple IDs to one note {H}
+        #  - [F] Translate multiple IDs to one note {H}
         # [ ] Property logic (M)
         #  - [A] Separate shiftstones
         #  - [F] Order after mods
@@ -255,7 +255,7 @@ class Converter:
         #  - [B] Fix #STRWSTATE# {H}
         #  - [R] Fix #NUMBER# token to use chart digits.
         #  - [ ] Fix structure numbering after reinsertion. (Make numbering post-translation?) {L}
-        #  - [ ] Include replaced notation when turning symbol to note {H}
+        #  - [F] Include replaced notation when turning symbol to note {H}
         # [F] Symbol overrides {H}
         # [ ] Token and tokenless symbol conversion (E) {L}
         #  - [ ] Tokenless to token
@@ -287,7 +287,7 @@ class Converter:
             output_symbols = output_chart["symbols"]
 
             # Unless numbers are explicitly specified in the JSON, add them automatically.
-            # If you add a number yourself, I expect you to add all numbers from 0 to 9.
+            # If you add a digits yourself, I expect you to add all digits from 0 to 9.
             found_digits = False
             for symbol_chart in [input_symbols, output_symbols]:
                 for symbol in symbol_chart.values():
@@ -317,7 +317,6 @@ class Converter:
                                 f"WARNING: Numbers are explicitly specified in {input_or_output} chart, "
                                 f"but {",".join(missing_digits)} are missing.\n"
                                 "They will not be autocompleted. "
-                                "If you define the digits yourself, I expect you to define all of them."
                             )
                         )
                         del input_or_output
@@ -399,7 +398,7 @@ class Converter:
             # Preload variables for performance and convenience, again.
             input_note_symbol = get_first_note_symbol(input_symbols)
             output_note_symbol = get_first_note_symbol(output_symbols)
-            del get_first_note_symbol  # Won't need this anymore since we stored both symbols in variables.
+            del get_first_note_symbol
             token_symbols = [
                 symbol["text"] for symbol in input_symbols.values()
                 if check_if_has_tag(symbol, "token")
@@ -440,15 +439,21 @@ class Converter:
             regex_patterns = {
                 # WARN: Replace digits with numbers from chart.
                 "#SUMMON#": f"\\d+|{"\\d*|".join(summons)}\\d*",
-                "#STRUCTURE#": f"\\d+|{"\\d*|".join(structures)}\\d*".replace("#SUMMON#", f"(?:\\d+|{"\\d*|".join(summons)}\\d*)"),
-                "#STRWSTATE#": "|".join(structure_states).replace("#STRUCTURE#", f"(?:\\d+|{"\\d*|".join(structures)}\\d*)").replace("#SUMMON#", f"(?:\\d+|{"\\d*|".join(summons)}\\d*)"),
+                "#STRUCTURE#": f"\\d+|{"\\d*|".join(structures)}\\d*"
+                    .replace("#SUMMON#", f"(?:\\d+|{"\\d*|".join(summons)}\\d*)"),
+                "#STRWSTATE#": "|"
+                    .join(structure_states)
+                    .replace("#STRUCTURE#", f"(?:\\d+|{"\\d*|".join(structures)}\\d*)")
+                    .replace("#SUMMON#", f"(?:\\d+|{"\\d*|".join(summons)}\\d*)"),
                 "#MODIFIER#": "|".join(modifiers),
                 "#MIRROR#": "|".join(mirrorables),
                 "#NUMBER#": f"(?:{"|".join(numbers)})+",
-                "#NOTATION#": f"(?:{"+|".join(symbols)})+".replace("#STRUCTURE#", f"(?:\\d+|{"\\d*|".join(structures)}\\d*)"),
+                "#NOTATION#": f"(?:{"+|".join(symbols)})+"
+                    .replace("#STRUCTURE#", f"(?:\\d+|{"\\d*|".join(structures)}\\d*)"),
                 "#SYMBOL#": "|".join(symbols),
                 "#TEXT#": r"\w+",
-                "#POSITIONALINDICATORS#": f"(?:{"|".join(indicators)})+".replace("#STRWSTATE#", f"(?:{")|(?:".join(structure_states)})".replace("#STRUCTURE#", f"(?:\\d+|{"\\d*|".join(structures)}\\d*)".replace("#SUMMON#", f"\\d+|{"\\d*|".join(summons)}\\d*")))
+                "#POSITIONALINDICATORS#": f"(?:{"|".join(indicators)})+"
+                    .replace("#STRWSTATE#", f"(?:{")|(?:".join(structure_states)})".replace("#STRUCTURE#", f"(?:\\d+|{"\\d*|".join(structures)}\\d*)".replace("#SUMMON#", f"\\d+|{"\\d*|".join(summons)}\\d*")))
             }
             del structures, structure_states, modifiers, mirrorables
             del symbols, indicators, numbers
@@ -513,7 +518,9 @@ class Converter:
                 line = notation[line_index]
                 for expression in symbol_expressions.keys():
                     for match in reversed(list(finditer(expression, line))):
-                        print(f"GROUP FOUND: {match.group()}\nSYMBOL: {symbol_expressions[expression]}\nEXPRESSION: {expression}\n")
+                        print(f"GROUP FOUND: {match.group()}")
+                        print(f"SYMBOL: {symbol_expressions[expression]}")
+                        print(f"EXPRESSION: {expression}")
                         tokens_in_order = findall(
                             f"({"|".join(regex_patterns.keys())})",
                             symbol_expressions[expression]
@@ -525,8 +532,11 @@ class Converter:
                                     input_chart,
                                     output_chart,
                                     match.group(group_index + 1),
-                                    indicator_priority=True
+                                    indicator_priority=True,
+                                    return_ids=True
                                 )
+                                translated_match = [input_chart["symbols"][id]["notes"][0] for id in translated_match]
+                                translated_match = ", ".join(translated_match)
                             else:
                                 translated_match = match_converter.translate(
                                     input_chart,
@@ -550,6 +560,8 @@ class Converter:
             #   and if it doesn't, it adds None.
             # WARN: Will probably need to be replaced with a better system
             #   that accounts for notes added after translation.
+            # If the notes are added after translation,
+            #   doesn't that mean they can't be turned to symbols?  -@0xity 7 months later
             note_replacements = []
             all_notes = []
             for id_note in symbol_notes.values():
@@ -1072,6 +1084,9 @@ class Converter:
                 # Stores IDs that will be translated to notes.
                 ids_to_notes = {}
 
+                if return_ids:
+                    return symbols_to_ids
+
             #=======================#
             #                       #
             # TRANSLATION TO SYMBOL #
@@ -1108,20 +1123,6 @@ class Converter:
                             print(f"CURRENT TRANSLATED NOTATION: {translated_notation}")
                             id_index += 1
                             continue
-
-                        # INFO:
-                        # If macro note tag in symbol,
-                        #   get the note part of every symbol replaced by the token,
-                        #   concatenate them into one string,
-                        #   insert in notes,
-                        #   replace symbol with note symbol
-                        #
-                        # TODO:
-                        # create a variable that stores which token replacements are inserted
-                        # create dictionary with ID: expression pairs?
-
-                        if check_if_has_tag(input_symbols[id], "macro_note"):
-                            pass
 
                         # Handle invalid ID.
                         if self.fast:
@@ -1180,6 +1181,15 @@ class Converter:
                                         if id_index == len(line):
                                             id_index -= 1
                 del id_index
+
+                # Turn multi symbol tokens into one note
+                if id not in output_symbols:
+                    if check_if_has_tag(input_symbols[id], "macro_note"):
+                        for i in range(len(notes)):
+                            if findall(r"#\d+#", notes[i]):
+                                notes[i] = sub(r"#\d+#", matches[0][2], notes[i])
+                                matches.pop(0)
+                                break
 
             #=======================#
             #                       #
@@ -1241,7 +1251,9 @@ class Converter:
             if "text" in output_chart["chart_names"] and "english" in output_chart["chart_names"]:
                 # Support for structures with multiple digits.
                 # WARN: Make a number symbol with digit token to avoid this.
-                translated_notation = sub(r"structure (\d), structure (\d)", r"structure \g<1>\g<2>", translated_notation)
+                translated_notation = sub(r"structure (\d), structure (\d)",
+                                          r"structure \g<1>\g<2>",
+                                          translated_notation)
 
                 # Remove comma before structure numbers.
                 translated_notation = translated_notation.replace(", structure", " structure")
@@ -1253,10 +1265,14 @@ class Converter:
                 english_summons = f"({"|".join(english_summons)})"
 
                 # Put "as" between summons and structure numbers.
-                translated_notation = sub(fr"{english_summons} structure", r"\g<1> as structure", translated_notation)
+                translated_notation = sub(fr"{english_summons} structure",
+                                          r"\g<1> as structure",
+                                          translated_notation)
 
                 # Put "summon" before summoning structures.
-                translated_notation = sub(fr"(?:(?<=, )){english_summons}", r"summon \g<1>", translated_notation)
+                translated_notation = sub(fr"(?:(?<=, )){english_summons}",
+                                          r"summon \g<1>",
+                                          translated_notation)
 
                 # Replace note symbols in notation with note contents.
                 note_texts = findall(r"\n\(note\), (.*)", translated_notation)
@@ -1292,7 +1308,7 @@ if __name__ == "__main__":
             chart1 = c.find_chart(system1, all_charts)
             chart2 = c.find_chart(system2, all_charts)
 
-            # c.fast = True
+            c.fast = True
 
             notation = input("Notation: ")
             print(c.translate(chart1, chart2, notation))
